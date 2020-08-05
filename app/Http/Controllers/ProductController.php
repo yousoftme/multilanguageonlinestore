@@ -19,7 +19,8 @@ class ProductController extends Controller
     public function index()
     {
         //
-        return 123;
+        $product = Product::with('languages')->with('colors')->with('memories')->with('sizes')->get();
+        return $product;
     }
 
     /**
@@ -50,6 +51,38 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'name' => 'required'
+        ]);
+
+        $product = Product::create(['name' => $request->name]);
+        
+        if (!empty($request->options)) {
+            # code...
+            if (!empty($request->language)) {
+                # code...
+                $language = Language::where('name', $request->language)->get();
+                $product->languages()->attach($language);
+            }
+            if (!empty($request->color)) {
+                # code...
+                $colors = explode(", ", $request->color);
+                $color = Color::where('name', $colors[0])->where('code', $colors[1])->get();
+                $product->colors()->attach($color);
+            }
+            if (!empty($request->memory)) {
+                # code...
+                $memories = explode(", ", $request->memory);
+                $memory = Memory::where('ram', $memories[0])->where('hard_drive', $memories[1])->get();
+                $product->memories()->attach($memory);
+            }
+            if (!empty($request->size)) {
+                # code...
+                $size = Size::where('inches', $request->size)->get();
+                $product->sizes()->attach($size);
+            }
+        }
+        return redirect()->route('products.index');
     }
 
     /**

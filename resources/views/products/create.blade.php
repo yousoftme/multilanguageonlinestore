@@ -19,11 +19,11 @@
 
                         <div class="form-group">
                             <label for="product_name_input">Name</label>
-                            <input type="text" class="form-control" id="product_name_input">
+                            <input type="text" class="form-control" name="name" id="product_name_input">
                         </div>
 
                         <div class="form-group form-check">
-                            <input type="checkbox" class="form-check-input" value="options" id="option_check">
+                            <input type="checkbox" class="form-check-input" name="options" value="options" id="option_check">
                             <label class="form-check-label" for="option_check">Options</label>
                         </div>
 
@@ -32,8 +32,8 @@
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" for="language_select">Language</label>
                                 </div>
-                                <select class="custom-select" id="language_select">
-                                    <option selected>Choose...</option>
+                                <select class="custom-select" name="language" id="language_select">
+                                    <option selected disabled>Choose...</option>
                                     @forelse ($languages as $language)
                                     <option value="{{ $language->name }}">{{ $language->name }}</option>
                                     @empty
@@ -49,10 +49,10 @@
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" for="color_select">Color</label>
                                 </div>
-                                <select class="custom-select" id="color_select">
-                                    <option selected>Choose...</option>
+                                <select class="custom-select" name="color_name" id="color_select">
+                                    <option selected disabled>Choose...</option>
                                     @forelse ($colors as $color)
-                                    <option value="{{ $color->code }}">{{ $color->name }}</option>
+                                    <option value="{{ $color->name .', '.$color->code  }}">{{ $color->name }}</option>
                                     @empty
                                     <option value="1">One</option>
                                     <option value="2">Two</option>
@@ -65,8 +65,8 @@
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" for="memory_select">Memory</label>
                                 </div>
-                                <select class="custom-select" id="memory_select">
-                                    <option selected>Choose...</option>
+                                <select class="custom-select" name="memory" id="memory_select">
+                                    <option selected disabled>Choose...</option>
                                     @forelse ($memories as $memory)
                                     <option value="{{ $memory->ram .', '.$memory->hard_drive  }}">{{ $memory->ram .', '.$memory->hard_drive  }}</option>
                                     @empty
@@ -81,8 +81,8 @@
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" for="size_select">Size</label>
                                 </div>
-                                <select class="custom-select" id="size_select">
-                                    <option selected>Choose...</option>
+                                <select class="custom-select" name="size" id="size_select">
+                                    <option selected disabled>Choose...</option>
                                     @forelse ($sizes as $size)
                                     <option value="{{ $size->inches }}">{{ $size->inches }}</option>
                                     @empty
@@ -106,15 +106,23 @@
 @push('scripts')
 <script>
         $(document).ready(function () {
-            $('#option_check').on( "click", function (param) { 
+
+            $('#option_check').on( "click", function () { 
+                showOptions();
+            });
+
+            showOptions();
+
+            // fuction defination
+            function showOptions() {
                 var options = $('#option_check:checked').val();
-                console.log(options);
                 if (options == 'options') {
                     $('#options-container').show();
                 } else {
                     $('#options-container').hide();
                 }
-            });
+            }
+            
         });
 </script>
 @endpush

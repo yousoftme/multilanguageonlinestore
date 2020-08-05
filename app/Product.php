@@ -18,7 +18,7 @@ class Product extends Model
      */
     public function languages()
     {
-        return $this->belongsToMany('App\Language', 'product_id', 'language_id');
+        return $this->belongsToMany('App\Language', 'language_product', 'product_id', 'language_id');
     }
     
     /**
@@ -26,7 +26,7 @@ class Product extends Model
      */
     public function colors()
     {
-        return $this->belongsToMany('App\Color', 'product_id', 'color_id');
+        return $this->belongsToMany('App\Color', 'color_product', 'product_id', 'color_id');
     }
 
     /**
@@ -34,7 +34,7 @@ class Product extends Model
      */
     public function sizes()
     {
-        return $this->belongsToMany('App\Language', 'product_id', 'size_id');
+        return $this->belongsToMany('App\Language', 'product_size', 'product_id', 'size_id');
     }
 
     /**
@@ -42,6 +42,6 @@ class Product extends Model
      */
     public function memories()
     {
-        return $this->belongsToMany('App\Language', 'product_id', 'memory_id');
+        return $this->belongsToMany('App\Language', 'memory_product', 'product_id', 'memory_id');
     }
 }
